@@ -7,12 +7,18 @@ jobs: #Định nghĩa job test chạy trên máy ảo Ubuntu (runs-on: ubuntu-la
     - uses: actions/checkout@v2 #: Lấy code từ repository.
     - name: Run Selenium Tests #Chạy script test_saucedemo.py (test login).
       run: python test_saucedemo.py  # Script test login
-    - name: Export Log
-      if: failure()  # Chỉ chạy khi fail
-      #tạo file error_log.txt với log lỗi mẫu (thay bằng log thực tế từ console hoặc saucelabs.com).
-      run: echo "[ERROR] TimeoutException: Element #login-button not found" > error_log.txt
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: error-log
-        path: error_log.txt
+    # - name: Export Log
+    #   if: failure()  # Chỉ chạy khi fail
+    #   #tạo file error_log.txt với log lỗi mẫu (thay bằng log thực tế từ console hoặc saucelabs.com).
+    #   run: echo "[ERROR] TimeoutException: Element #login-button not found" > error_log.txt
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: error-log
+    #     path: error_log.txt
+
+    - name: Fetch Sauce Labs Log
+      if: failure()
+      run: |
+          curl -u "your-username:your-key" "https://api.us-west-1.saucelabs.com/v1/jobs/abc123" > sauce_log.json
+          jq '.error' sauce_log.json > error_log.txt
