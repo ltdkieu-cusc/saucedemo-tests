@@ -20,5 +20,5 @@ jobs: #Định nghĩa job test chạy trên máy ảo Ubuntu (runs-on: ubuntu-la
     - name: Fetch Sauce Labs Log
       if: failure()
       run: |
-          curl -u "your-username:your-key" "https://api.us-west-1.saucelabs.com/v1/jobs/abc123" > sauce_log.json
+          curl -u "oauth-ltdkieu-aafe7:f65bb46c-1103-4980-85f2-03798b069609" "https://api.us-west-1.saucelabs.com/v1/jobs/abc123" > sauce_log.json
           jq '.error' sauce_log.json > error_log.txt
